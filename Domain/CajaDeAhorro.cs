@@ -82,5 +82,19 @@ public class CajaDeAhorro : CuentaBancaria
             Console.WriteLine(ex.Message);
         }
     }
+
+    public void AplicarInteres()
+    {
+        if (TasaDeInteres > 0)
+        {
+            Console.WriteLine($"Aplicando Interes del {TasaDeInteres}%\nEl saldo actual es: {Saldo}");
+            Saldo += Saldo * TasaDeInteres;
+            Console.WriteLine($"El saldo nuevo es: {Saldo}");
+        }
+        else
+        {
+            Console.WriteLine("Tasa de interes 0%: no modifica el saldo de la cuenta.");
+        }
+    }
 }
 
