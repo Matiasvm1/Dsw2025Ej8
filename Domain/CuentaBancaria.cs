@@ -1,23 +1,20 @@
 ﻿namespace Dsw2025Ej8.Domain;
 
-public class CuentaBancaria
+public abstract class CuentaBancaria
 {
-    private TipoCuenta _tipo;
-    private string _numero;
-    private decimal _saldo;
-    private Estado _estado;
-    private decimal _tasaDeInteres;
-    private decimal _limiteDeDescubierto;
-    private decimal _comision;
-    private string[] _titulares;
+    public TipoCuenta TipoCuenta { get;}
+    public String Numero { get; }
+    public decimal Saldo { get; protected set; }
+    public Estado Estado { get; protected set; }
+    public string[] Titulares { get; }
 
     public CuentaBancaria(string numero, decimal saldo, TipoCuenta tipo, string[] titulares)
     {
-        _numero = numero;
-        _saldo = saldo;
-        _tipo = tipo;
-        _estado = Estado.Activa;
-        _titulares = titulares;
+        this.Numero = numero;
+        this.Saldo = saldo;
+        this.TipoCuenta = tipo;
+        this.Estado = Estado.Activa;
+        this.Titulares = titulares;
     }
     #region Getters/Setters
     public string GetNumero()
@@ -80,43 +77,19 @@ public class CuentaBancaria
     }
     #endregion
 
-    public void Depositar(decimal monto)
-    {
-        if (_tipo == TipoCuenta.CajaDeAhorro)
-        {
-            _saldo += monto;
-        }
-        else if (_tipo == TipoCuenta.CuentaCorriente)
-        {
-            monto -= monto * _comision;
-            _saldo += monto;
-        }
-    }
+    public abstract void Depositar(decimal monto);
 
-    public void Retirar(decimal monto)
-    {
-        if (_tipo == TipoCuenta.CajaDeAhorro)
-        {
-            _saldo -= monto;
-        }
-        else if (_tipo == TipoCuenta.CuentaCorriente)
-        {
-            if (_saldo - monto >= -_limiteDeDescubierto)
-            {
-                _saldo -= monto;
-            }
-            if (_saldo < 0)
-            {
-                _estado = Estado.Suspendida;
-            }
-        }
-    }
 
-    public void AplicarInteres()
+    public abstract void Retirar(decimal monto);
+    
+    public object ObtenerResumen()
     {
-        if (_tipo == TipoCuenta.CajaDeAhorro)
+        return new
         {
-            _saldo += _saldo * _tasaDeInteres;
-        }
+            Numero = this.Numero,
+            TipoCuenta = this.TipoCuenta.ToString(),
+            Saldo = this.Saldo
+        };
     }
+    
 }
