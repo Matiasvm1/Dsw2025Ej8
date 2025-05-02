@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace Dsw2025Ej8.Errores
 {
-    internal class SaldoInsuficiente
+    internal class SaldoInsuficiente : Exception
     {
+        public SaldoInsuficiente() : base("La cuenta no cuenta con saldo para la operación solicitada. Fue suspendida")
+        {
+        }
+        public SaldoInsuficiente(string message) : base(message)
+        {
+        }
     }
 }

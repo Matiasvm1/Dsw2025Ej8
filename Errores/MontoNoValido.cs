@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace Dsw2025Ej8.Errores
 {
-    internal class Class1
+    internal class MontoNoValido : Exception
     {
+        public MontoNoValido() : base(" El monto ingresado no es válido para la operación solicitada.")
+        {
+        }
+        public MontoNoValido(string message) : base(message)
+        {
+        }
     }
 }
